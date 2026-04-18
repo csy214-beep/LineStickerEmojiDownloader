@@ -180,11 +180,11 @@ def mode3():
     """读取指定txt文件进行批量下载"""
     target_dir = ask_output_directory()
     original_dir = os.getcwd()
-    os.chdir(target_dir)
     try:
         txtPath = input(
             "请输入txt文件路径（直接回车使用当前目录下的 bdp.txt）: "
         ).strip()
+        print("使用文件路径：", os.path.join(os.getcwd(), txtPath))
         if not txtPath:
             txtPath = "bdp.txt"
         if not os.path.exists(txtPath):
@@ -193,6 +193,9 @@ def mode3():
 
         with open(txtPath, "r", encoding="utf-8") as f:
             urls = [line.strip() for line in f if line.strip()]
+
+        # 切换到目标目录
+        os.chdir(target_dir)
 
         for url in urls:
             if '/author/' in url:
@@ -212,6 +215,7 @@ def mode3():
 
 # ---------------------- 主程序 ----------------------
 if __name__ == "__main__":
+    print(f"当前路径：{os.getcwd()}")
     print("请选择模式：")
     print("1 - 下载单个表情包（交互输入URL）")
     print("2 - 下载作者的所有表情包（交互输入作者URL）")
